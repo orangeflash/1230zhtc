@@ -201,6 +201,9 @@
   <image mode='aspectFit' src='../image/selectbao.png'></image>
   <view style='background:{{system.color}}'>去买单</view>
 </navigator>
+<view bindtap="ljyy" wx:if="{{store.is_yy=='1'}}" class="weui-btn-area">
+  <button class="weui-btn" formType="submit" type="primary" style="background-color:{{system.color}};font-size:36rpx">立即预约</button>
+</view>
 <!--yhq -->
 <block wx:if="{{coupons.length>0||order_list.length>0||group_list.length>0}}">
   <view wx:if="{{tabs3.length>0}}" class="user flex-center">

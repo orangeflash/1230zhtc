@@ -55,6 +55,11 @@ Page({
       iszd: true,
     })
   },
+  qtsz(){
+    wx.navigateTo({
+      url: '/zh_tcwq/pages/extra/yy/yysz?store_id=' + this.data.seller.id,
+    })
+  },
   fbyhq: function () {
     wx.navigateTo({
       url: '../wdq/fbyhq?store_id=' + this.data.seller.id,

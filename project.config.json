@@ -13,7 +13,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.7.1",
-	"appid": "wx80fa1d36c435231a",
+	"appid": "wx4eb45ec7308eb4bb",
 	"projectname": "%E5%90%8C%E5%9F%8E",
 	"cloudfunctionTemplateRoot": "",
 	"debugOptions": {
@@ -78,6 +78,48 @@
 					"name": "zh_tcwq/pages/sellerinfo/good_info",
 					"pathName": "zh_tcwq/pages/sellerinfo/good_info",
 					"query": "id=2&store_id=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "zh_tcwq/pages/logs/logs",
+					"pathName": "zh_tcwq/pages/logs/logs",
+					"query": "id=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "zh_tcwq/pages/logs/bbaa",
+					"pathName": "zh_tcwq/pages/logs/bbaa",
+					"query": "id=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "zh_tcwq/pages/redbag/merchant",
+					"pathName": "zh_tcwq/pages/redbag/merchant",
+					"query": "id=4849",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "zh_tcwq/pages/extra/yy/yysz",
+					"pathName": "zh_tcwq/pages/extra/yy/yysz",
+					"query": "store_id=4849",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "zh_tcwq/pages/sellerinfo/sellerinfo",
+					"pathName": "zh_tcwq/pages/sellerinfo/sellerinfo",
+					"query": "id=4849",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "zh_tcwq/pages/sellerinfo/md",
+					"pathName": "zh_tcwq/pages/sellerinfo/md",
+					"query": "sjid=4849",
 					"scene": null
 				}
 			]

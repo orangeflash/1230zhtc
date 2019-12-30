@@ -191,6 +191,10 @@
         <image class="secimg" bindtap='dkxf' mode='aspectFill' src="../image/life.png"></image>
         <view class="sectext">商家续费</view>
       </view>
+      <view class="seclist">
+        <image class="secimg" bindtap='qtsz' mode='aspectFill' src="../image/selle.png"></image>
+        <view class="sectext">其他设置</view>
+      </view>
     </view>
   </view>
 </view>

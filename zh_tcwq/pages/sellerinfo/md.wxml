@@ -24,6 +24,17 @@
 <view class='bdhimg'>
   <image mode='aspectFill' src='{{url}}{{mdinfo.logo}}'></image>
 </view>
+<view class="weui-cells">
+  <radio-group bindchange="zfradioChange">
+    <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
+      <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+      <view class="weui-cell__bd">{{item.name}}</view>
+      <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+        <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+      </view>
+    </label>
+  </radio-group>
+</view>
 <view class='bd'>
   <view class='mdname'>{{mdinfo.store_name}}</view>
   <view class='input {{focus?"inputjj":""}}' bindtap='hqjd'>

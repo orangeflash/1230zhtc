@@ -1,0 +1,5 @@
+/* zh_zbkq/pages/my/fbyhq.wxss */
+@import 'yysz.wxss';
+.weui-label{
+  width: 180rpx;
+}

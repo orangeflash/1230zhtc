@@ -23,9 +23,6 @@
 .scrolltxt{padding:0 20rpx;display: flex;flex-direction: row;}
 .marquee_box {flex: 1;position:relative;height:70rpx;display:block;overflow:hidden;} 
 .marquee_text {white-space: nowrap;position:absolute;top:0;font-size:14px;height:70rpx;line-height:70rpx;}
-.weui-cell:before {
-border-top:none;
-}
 
 .qlq{
   width: 100%;

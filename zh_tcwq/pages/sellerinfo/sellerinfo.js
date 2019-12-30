@@ -22,42 +22,57 @@ Page({
     share: false,
     tabs2: ["商家详情"],
     tabs3: [],
-    star: [
-      {
-        img: '../image/star_none.png'
-      }, {
-        img: '../image/star_none.png'
-      }, {
-        img: '../image/star_none.png'
-      }, {
-        img: '../image/star_none.png'
-      }, {
-        img: '../image/star_none.png'
-      }
-    ],
-    star1: [
-      {
-        img: '../image/xing.png'
-      }, {
-        img: '../image/xing.png'
-      }, {
-        img: '../image/xing.png'
-      }, {
-        img: '../image/xing.png'
-      }, {
-        img: '../image/xing.png'
-      }
-    ],
+    star: [{
+      img: '../image/star_none.png'
+    }, {
+      img: '../image/star_none.png'
+    }, {
+      img: '../image/star_none.png'
+    }, {
+      img: '../image/star_none.png'
+    }, {
+      img: '../image/star_none.png'
+    }],
+    star1: [{
+      img: '../image/xing.png'
+    }, {
+      img: '../image/xing.png'
+    }, {
+      img: '../image/xing.png'
+    }, {
+      img: '../image/xing.png'
+    }, {
+      img: '../image/xing.png'
+    }],
     index: 0,
     swiperCurrent: 0,
-    marqueePace: 1,//滚动速度
-    marqueeDistance: 0,//初始滚动距离
+    marqueePace: 1, //滚动速度
+    marqueeDistance: 0, //初始滚动距离
     marquee_margin: 30,
     size: 14,
     interval: 20, // 时间间隔,
     hydl: false,
     inputShowed: false,
     inputVal: ""
+  },
+  ljyy() {
+    if (this.data.store.yy_integral > 0) {
+      wx.showModal({
+        title: '提示',
+        content: `需要${this.data.store.yy_integral}积分才可以预约`,
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/zh_tcwq/pages/extra/yy/yy?store_id=' + this.data.store.id,
+            })
+          }
+        },
+      })
+    } else {
+      wx.navigateTo({
+        url: '/zh_tcwq/pages/extra/yy/yy?store_id=' + this.data.store.id,
+      })
+    }
   },
   showInput: function () {
     this.setData({
@@ -82,7 +97,8 @@ Page({
     });
   },
   search: function (e) {
-    var value = this.data.inputVal, that = this;
+    var value = this.data.inputVal,
+      that = this;
     console.log(value)
     that.setData({
       ssjgarr: [],
@@ -91,7 +107,10 @@ Page({
       app.util.request({
         'url': 'entry/wxapp/GoodList',
         'cachetime': '0',
-        data: { keywords: value, store_id: that.data.id },
+        data: {
+          keywords: value,
+          store_id: that.data.id
+        },
         success: function (res) {
           console.log(res)
           that.setData({
@@ -105,8 +124,7 @@ Page({
           }
         }
       })
-    }
-    else {
+    } else {
       wx.showToast({
         title: '请输入内容',
         icon: 'loading'
@@ -152,7 +170,9 @@ Page({
                   app.util.request({
                     'url': 'entry/wxapp/openid',
                     'cachetime': '0',
-                    data: { code: code },
+                    data: {
+                      code: code
+                    },
                     success: function (res) {
                       // 异步保存session-key
                       wx.setStorageSync("key", res.data.session_key)
@@ -168,7 +188,11 @@ Page({
                       app.util.request({
                         'url': 'entry/wxapp/Login',
                         'cachetime': '0',
-                        data: { openid: openid, img: img, name: name },
+                        data: {
+                          openid: openid,
+                          img: img,
+                          name: name
+                        },
                         success: function (res) {
                           console.log('这是用户的登录信息')
                           console.log(res)
@@ -186,8 +210,7 @@ Page({
                   })
                 }
               })
-            }
-            else {
+            } else {
               console.log('未授权过')
               that.setData({
                 hydl: true,
@@ -229,19 +252,19 @@ Page({
     var store_id = this.data.id
     wx: wx.navigateTo({
       url: 'shop?store_id=' + store_id,
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   goods_info: function (e) {
     var store_id = this.data.id
     var id = e.currentTarget.id
     wx: wx.navigateTo({
-      url: 'good_info?id=' + id + '&store_id=' + store_id+ '&logo=' + this.data.logo,
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      url: 'good_info?id=' + id + '&store_id=' + store_id + '&logo=' + this.data.logo,
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   // --------------------------------------------图片预览
@@ -311,9 +334,9 @@ Page({
     if (this.data.store.vr_link != '') {
       wx: wx.navigateTo({
         url: '../car/car?sjid=' + this.data.id,
-        success: function (res) { },
-        fail: function (res) { },
-        complete: function (res) { },
+        success: function (res) {},
+        fail: function (res) {},
+        complete: function (res) {},
       })
     }
   },
@@ -341,7 +364,9 @@ Page({
       'url': 'entry/wxapp/System',
       'cachetime': '0',
       success: function (res) {
-        let sys = res.data, tabs = [], tabs2 = that.data.tabs2;
+        let sys = res.data,
+          tabs = [],
+          tabs2 = that.data.tabs2;
         console.log(res, sys.is_coupon != '1' || sys.is_yhqqx != '1')
         if (sys.is_coupon == '1' && sys.is_yhqqx == '1') {
           tabs.push('优惠券')
@@ -352,7 +377,7 @@ Page({
         if (sys.g_qx == '1' && sys.g_open == '1') {
           tabs.push('拼团商品')
         }
-        if(res.data.is_pl==1){
+        if (res.data.is_pl == 1) {
           tabs2.push('用户评论')
         }
         that.setData({
@@ -370,11 +395,10 @@ Page({
     var scene = decodeURIComponent(options.scene)
     app.getUrl(this)
     if (options.scene == null) {
-      if (wx.getStorageSync('users')){
+      if (wx.getStorageSync('users')) {
         var user_info = wx.getStorageSync('users')
         var user_id = wx.getStorageSync('users').id
-      }
-      else{
+      } else {
         this.getuserinfo();
       }
       var id = options.id
@@ -385,7 +409,9 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/StoreCoupon',
       'cachetime': '0',
-      data: { store_id: id },
+      data: {
+        store_id: id
+      },
       success: function (res) {
         console.log(res)
         for (let i = 0; i < res.data.length; i++) {
@@ -399,7 +425,13 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/QgGoods',
       'cachetime': '0',
-      data: { type_id: '', store_id: id, page: 1, pagesize: 10, type: '' },
+      data: {
+        type_id: '',
+        store_id: id,
+        page: 1,
+        pagesize: 10,
+        type: ''
+      },
       success: function (res) {
         console.log('分页返回的列表数据', res.data)
         for (let i = 0; i < res.data.length; i++) {
@@ -408,6 +440,7 @@ Page({
         }
         var storelist = [];
         storelist = storelist.concat(res.data);
+
         function unrepeat(arr) {
           var newarr = [];
           for (var i = 0; i < arr.length; i++) {
@@ -444,7 +477,9 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/StoreCode',
       'cachetime': '0',
-      data: { store_id: id },
+      data: {
+        store_id: id
+      },
       success: res => {
         that.setData({
           bath: res.data
@@ -466,8 +501,8 @@ Page({
           sys_height: sys_height
         })
       },
-      fail: function (res) { },
-      complete: function (res) { },
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   reload: function (e) {
@@ -478,7 +513,9 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/StoreInfo',
       'cachetime': '0',
-      data: { id: that.data.id },
+      data: {
+        id: that.data.id
+      },
       success: function (res) {
         console.log(res)
         res.data.star3 = star3
@@ -525,7 +562,10 @@ Page({
         app.util.request({
           'url': 'entry/wxapp/IsCollection',
           'cachetime': '0',
-          data: { store_id: that.data.id, user_id: that.data.user_id },
+          data: {
+            store_id: that.data.id,
+            user_id: that.data.user_id
+          },
           success: function (res) {
             if (res.data == 1) {
               that.setData({
@@ -549,9 +589,9 @@ Page({
         // 商家的logo
         var logo = url + stores.logo
         // 二维码的图片
-        if (stores.ewm_logo == '' || stores.ewm_logo == null){
+        if (stores.ewm_logo == '' || stores.ewm_logo == null) {
           var logo1 = that.data.bath
-        }else{
+        } else {
           var logo1 = url + stores.ewm_logo
         }
         console.log(logo)
@@ -585,7 +625,7 @@ Page({
         var length = res.data.store[0].details.length * that.data.size;
 
         var windowWidth = wx.getSystemInfoSync().windowWidth;
-        console.log(length,windowWidth);
+        console.log(length, windowWidth);
         that.setData({
           length: length,
           windowWidth: windowWidth
@@ -597,7 +637,9 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/StoreGoodList',
       'cachetime': '0',
-      data: { store_id: that.data.id },
+      data: {
+        store_id: that.data.id
+      },
       success: function (res) {
         console.log(res)
         for (let i in res.data) {
@@ -605,8 +647,8 @@ Page({
           res.data[i].lb_imgs = res.data[i].lb_imgs.split(",")
         }
         var store_good = []
-        for(let i in res.data){
-          if (res.data[i].is_show==1){
+        for (let i in res.data) {
+          if (res.data[i].is_show == 1) {
             store_good.push(res.data[i])
           }
         }
@@ -650,9 +692,9 @@ Page({
   shouye: function (e) {
     wx: wx.reLaunch({
       url: '../index/index',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   // ------------------------------------点击入驻商家
@@ -660,9 +702,9 @@ Page({
     var that = this
     wx: wx.navigateTo({
       url: '../index/index',
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
   },
   // ------------------------------------点击拨打商家电话
@@ -734,7 +776,10 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/Collection',
       'cachetime': '0',
-      data: { store_id: store_id, user_id: user_id },
+      data: {
+        store_id: store_id,
+        user_id: user_id
+      },
       success: function (res) {
         if (res.data == 1) {
           that.setData({
@@ -746,9 +791,9 @@ Page({
             image: '',
             duration: 2000,
             mask: true,
-            success: function (res) { },
-            fail: function (res) { },
-            complete: function (res) { },
+            success: function (res) {},
+            fail: function (res) {},
+            complete: function (res) {},
           })
         } else {
           wx: wx.showToast({
@@ -757,9 +802,9 @@ Page({
             image: '',
             duration: 2000,
             mask: true,
-            success: function (res) { },
-            fail: function (res) { },
-            complete: function (res) { },
+            success: function (res) {},
+            fail: function (res) {},
+            complete: function (res) {},
           })
           that.setData({
             Collection: false
@@ -783,7 +828,9 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/GetUserInfo',
       'cachetime': '0',
-      data: { user_id: user_id },
+      data: {
+        user_id: user_id
+      },
       success: function (res) {
         if (res.data.state == 1) {
           that.setData({
@@ -804,8 +851,8 @@ Page({
               //   delta: 1,
               // })
             },
-            fail: function (res) { },
-            complete: function (res) { },
+            fail: function (res) {},
+            complete: function (res) {},
           })
         }
       },
@@ -858,6 +905,7 @@ Page({
     var store_id = that.data.id
     var user_id = wx.getStorageSync('users').id
     var reflex_id = that.data.reflex_id
+
     function getNowFormatDate() {
       var date = new Date();
       var seperator1 = "-";
@@ -870,12 +918,13 @@ Page({
       if (strDate >= 0 && strDate <= 9) {
         strDate = "0" + strDate;
       }
-      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-        + " " + date.getHours() + seperator2 + date.getMinutes()
-        + seperator2 + date.getSeconds();
+      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
+        " " + date.getHours() + seperator2 + date.getMinutes() +
+        seperator2 + date.getSeconds();
       return currentdate;
     }
     var time = getNowFormatDate()
+
     function fun_submit(arg) {
       var date1 = new Date();
       var date2 = new Date(date1);
@@ -892,11 +941,12 @@ Page({
         cancelColor: '',
         confirmText: '确定',
         confirmColor: '',
-        success: function (res) { },
-        fail: function (res) { },
-        complete: function (res) { },
+        success: function (res) {},
+        fail: function (res) {},
+        complete: function (res) {},
       })
-    } else {
+    }
+    else {
       if (that.data.relpay == false) {
         if (index == 0) {
           wx: wx.showModal({
@@ -907,15 +957,21 @@ Page({
             cancelColor: '',
             confirmText: '确定',
             confirmColor: '',
-            success: function (res) { },
-            fail: function (res) { },
-            complete: function (res) { },
+            success: function (res) {},
+            fail: function (res) {},
+            complete: function (res) {},
           })
-        } else {
+        }
+        else {
           app.util.request({
             'url': 'entry/wxapp/StoreComments',
             'cachetime': '0',
-            data: { store_id: store_id, user_id: user_id, details: value, score: index },
+            data: {
+              store_id: store_id,
+              user_id: user_id,
+              details: value,
+              score: index
+            },
             success: function (res) {
               console.log('评论完成')
               console.log(res)
@@ -928,9 +984,9 @@ Page({
                 image: '',
                 duration: 2000,
                 mask: true,
-                success: function (res) { },
-                fail: function (res) { },
-                complete: function (res) { },
+                success: function (res) {},
+                fail: function (res) {},
+                complete: function (res) {},
               })
               setTimeout(function () {
                 that.reload()
@@ -940,7 +996,9 @@ Page({
               app.util.request({
                 'url': 'entry/wxapp/GetFormid',
                 'cachetime': '0',
-                data: { user_id: that.data.store.user_id },
+                data: {
+                  user_id: that.data.store.user_id
+                },
                 success: function (res) {
                   console.log('搜索form_id')
                   console.log(res)
@@ -1001,7 +1059,10 @@ Page({
         app.util.request({
           'url': 'entry/wxapp/reply',
           'cachetime': '0',
-          data: { id: reflex_id, reply: value },
+          data: {
+            id: reflex_id,
+            reply: value
+          },
           success: function (res) {
             if (res.data == 1) {
               that.setData({
@@ -1054,20 +1115,20 @@ Page({
   //       }
   //     })
   //   },500)
-    
+
   // },
-  ctx:function(e){
+  ctx: function (e) {
     var that = this
     var a = that.data
-    var width = a.width//屏幕宽度
-    var height = a.height//屏幕高度
+    var width = a.width //屏幕宽度
+    var height = a.height //屏幕高度
     var leiWid = (width - 150) / 2
     // 声明画布
     var ctx = wx.createCanvasContext('ctx')
     ctx.drawImage(a.logo1, 0, 0, 150, 150)
     ctx.save()
     ctx.beginPath()
-    ctx.arc( 75, 75, 35, 0, 2 * Math.PI)
+    ctx.arc(75, 75, 35, 0, 2 * Math.PI)
     ctx.clip()
     ctx.drawImage(a.logo, 35, 35, 75, 75)
     ctx.restore()
@@ -1102,29 +1163,27 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  },
+  onShow: function () {},
   scrolltxt: function () {
     var that = this;
     var length = that.data.length;
     var windowWidth = that.data.windowWidth;
-       interval = setInterval(function () {
-        console.log('interval')
-        var maxscrollwidth = length + windowWidth;
-        var crentleft = that.data.marqueeDistance;
-        if (crentleft < maxscrollwidth) {
-          that.setData({
-            marqueeDistance: crentleft + that.data.marqueePace
-          })
-        }
-        else {
-          that.setData({
-            marqueeDistance: 0 
-          });
-          clearInterval(interval);
-          that.scrolltxt();
-        }
-      }, that.data.interval);
+    interval = setInterval(function () {
+      console.log('interval')
+      var maxscrollwidth = length + windowWidth;
+      var crentleft = that.data.marqueeDistance;
+      if (crentleft < maxscrollwidth) {
+        that.setData({
+          marqueeDistance: crentleft + that.data.marqueePace
+        })
+      } else {
+        that.setData({
+          marqueeDistance: 0
+        });
+        clearInterval(interval);
+        that.scrolltxt();
+      }
+    }, that.data.interval);
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -1166,7 +1225,9 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/StoreFxNum',
       'cachetime': '0',
-      data: { store_id: store_id },
+      data: {
+        store_id: store_id
+      },
       success: function (res) {
         that.reload()
       },
@@ -1174,8 +1235,7 @@ Page({
     return {
       title: name,
       path: '/zh_tcwq/pages/sellerinfo/sellerinfo?user_id=' + user_id + '&id=' + store_id + '&type=' + 1,
-      success: function (res) {
-      },
+      success: function (res) {},
       fail: function (res) {
         // 转发失败
       }

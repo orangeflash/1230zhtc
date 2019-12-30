@@ -16,23 +16,43 @@ Page({
     qlq: true,
     djq: [],
     zkq: [],
-    discounttext:'0',
-    checkboxChange:[],
-    radioChange:'',
-    isyhq:false,
-    yhqnum:0,
-    kdje:0,
-    yhqname:'',
-    total:0,
+    discounttext: '0',
+    checkboxChange: [],
+    radioChange: '',
+    isyhq: false,
+    yhqnum: 0,
+    kdje: 0,
+    yhqname: '',
+    total: 0,
     showModal: false,
     zffs: 1,
     zfz: false,
     zfwz: '微信支付',
     btntype: 'btn_ok1',
     marqueePace: 1,
-     marqueeDistance:0,
-     size: 14,
-     interval: 20 //
+    marqueeDistance: 0,
+    size: 14,
+    interval: 20,
+    radioItems: [{
+        name: '不按月收费',
+        value: '0',
+        checked: true
+      },
+      {
+        name: '按月收费',
+        value: '1',
+      }
+    ],
+  },
+  zfradioChange: function (e) {
+    var radioItems = this.data.radioItems;
+    for (var i = 0, len = radioItems.length; i < len; ++i) {
+      radioItems[i].checked = radioItems[i].value == e.detail.value;
+    }
+
+    this.setData({
+      radioItems: radioItems
+    });
   },
   scrolltxt: function () {
     var that = this;
@@ -45,8 +65,7 @@ Page({
         that.setData({
           marqueeDistance: crentleft + that.data.marqueePace
         })
-      }
-      else {
+      } else {
         that.setData({
           marqueeDistance: 0
         });
@@ -56,8 +75,12 @@ Page({
     }, that.data.interval);
   },
   qrmd: function (e) {
-    var xfje = Number(this.data.total), uid = wx.getStorageSync('users').id, sjid = this.data.mdinfo.id,openid = wx.getStorageSync("openid"), form_id = e.detail.formId;
-    console.log(xfje, uid, sjid, openid,form_id)
+    var xfje = Number(this.data.total),
+      uid = wx.getStorageSync('users').id,
+      sjid = this.data.mdinfo.id,
+      openid = wx.getStorageSync("openid"),
+      form_id = e.detail.formId;
+    console.log(xfje, uid, sjid, openid, form_id)
     app.util.request({
       'url': 'entry/wxapp/SaveFormid',
       'cachetime': '0',
@@ -85,14 +108,22 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/AddDmOrder',
       'cachetime': '0',
-      data: { user_id: uid, money: xfje, store_id: sjid },
+      data: {
+        user_id: uid,
+        money: xfje,
+        store_id: sjid
+      },
       success: function (res) {
         console.log(res)
         var orderid = res.data;
         app.util.request({
           'url': 'entry/wxapp/pay4',
           'cachetime': '0',
-          data: { openid: openid, money: xfje, order_id: orderid},
+          data: {
+            openid: openid,
+            money: xfje,
+            order_id: orderid
+          },
           success: function (res) {
             console.log(res)
             // 支付
@@ -119,8 +150,7 @@ Page({
                     showCancel: false,
                   })
                   setTimeout(function () {
-                    wx.navigateBack({
-                    })
+                    wx.navigateBack({})
                   }, 1000)
                 }
               }
@@ -135,16 +165,16 @@ Page({
   },
   radioChange1: function (e) {
     console.log('radio1发生change事件，携带value值为：', e.detail.value)
-     if (e.detail.value=='wxzf'){
+    if (e.detail.value == 'wxzf') {
       this.setData({
-        zffs:1,
+        zffs: 1,
         zfwz: '微信支付',
-        btntype:'btn_ok1',
+        btntype: 'btn_ok1',
       })
     }
     if (e.detail.value == 'yezf') {
       this.setData({
-        zffs:2,
+        zffs: 2,
         zfwz: '余额支付',
         btntype: 'btn_ok2',
       })
@@ -164,14 +194,13 @@ Page({
   },
   qlq: function () {
     console.log(this.data)
-    if (this.data.xfje==0)
-    {
+    if (this.data.xfje == 0) {
       wx.showToast({
         title: '请输入消费金额',
-        icon:'loading',
-        duration:1000,
+        icon: 'loading',
+        duration: 1000,
       })
-      return 
+      return
     }
     this.setData({
       qlq: false,
@@ -187,34 +216,33 @@ Page({
       focus: true,
     })
   },
-  sqjd:function(e){
+  sqjd: function (e) {
     console.log(e.detail.value)
     this.setData({
       focus: false,
       xfje: Number(e.detail.value),
     })
   },
-  jstotal:function(){
+  jstotal: function () {
     console.log(this.data)
     var total = (Number(this.data.xfje) - Number(this.data.discounttext)).toFixed(2);
     if (this.data.checkboxChange.indexOf('quan') !== -1) {
       total = (total - Number(this.data.kdje)).toFixed(2)
       console.log('选择了优惠券')
       this.setData({
-        isyhq:true,
+        isyhq: true,
       })
-    }
-    else {
+    } else {
       console.log('没有选择券')
       this.setData({
         isyhq: false,
       })
     }
-    if(total<=0){
-      total=0;
+    if (total <= 0) {
+      total = 0;
     }
     this.setData({
-      total:total,
+      total: total,
     })
   },
   checkboxChange: function (e) {
@@ -230,9 +258,9 @@ Page({
     })
     console.log('radio发生change事件，携带value值为：', e.detail.value)
   },
-  xzq:function(e){
-    console.log(e.currentTarget.dataset,this.data.xfje)
-    if (Number(e.currentTarget.dataset.full) > this.data.xfje){
+  xzq: function (e) {
+    console.log(e.currentTarget.dataset, this.data.xfje)
+    if (Number(e.currentTarget.dataset.full) > this.data.xfje) {
       wx.showModal({
         title: '提示',
         content: '您的消费金额不满足此优惠券条件',
@@ -246,20 +274,20 @@ Page({
       yhqname: e.currentTarget.dataset.type,
       yhqkdje: e.currentTarget.dataset.kdje,
     })
-    if (e.currentTarget.dataset.type=='代金券'){
+    if (e.currentTarget.dataset.type == '代金券') {
       this.setData({
         kdje: e.currentTarget.dataset.kdje,
       })
     }
     if (e.currentTarget.dataset.type == '折扣券') {
       this.setData({
-        kdje: ((1-Number(e.currentTarget.dataset.kdje)*0.1) * Number(this.data.xfje)).toFixed(2),
+        kdje: ((1 - Number(e.currentTarget.dataset.kdje) * 0.1) * Number(this.data.xfje)).toFixed(2),
       })
     }
     this.jstotal();
   },
   bindinput: function (e) {
-    console.log(e.detail.value,this.data.yhqfull,this.data.yhqname,this.data.yhqkdje)
+    console.log(e.detail.value, this.data.yhqfull, this.data.yhqname, this.data.yhqkdje)
     // if (Number(e.detail.value) < Number(this.data.yhqfull)){
     //   wx.showModal({
     //     title: '温馨提示',
@@ -299,8 +327,7 @@ Page({
         disabled: false,
         total: Number(e.detail.value).toFixed(2)
       })
-    }
-    else {
+    } else {
       this.setData({
         disabled: true,
         total: 0,
@@ -317,10 +344,10 @@ Page({
       activeIndex: e.currentTarget.id,
     });
   },
-  
+
   yuan: function () {
     console.log('yuan')
-    var that=this;
+    var that = this;
     wx.showModal({
       title: '会员等级说明',
       content: that.data.userInfo.details,
@@ -341,15 +368,19 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/MyCoupons2',
       'cachetime': '0',
-      data: { user_id: uid, store_id: sjid },
+      data: {
+        user_id: uid,
+        store_id: sjid
+      },
       success: function (res) {
         console.log('优惠券信息', res.data)
-        var received=res.data;
-        var djq=[],zkq=[];
+        var received = res.data;
+        var djq = [],
+          zkq = [];
         for (let i = 0; i < received.length; i++) {
           if (received[i].type == '1' && received[i].state == '2') {
             djq.push(received[i]);
-          } 
+          }
           if (received[i].type == '2' && received[i].state == '2') {
             zkq.push(received[i]);
           }
@@ -619,25 +650,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options,this.data)
-    var that=this;
-    var url=wx.getStorageSync('url');
-    var mdid=options.sjid
+    console.log(options, this.data)
+    var that = this;
+    var url = wx.getStorageSync('url');
+    var mdid = options.sjid
     console.log(mdid)
     var uid = wx.getStorageSync('users').id;
     console.log(uid)
-    that.lqyhq(uid,mdid)
+    that.lqyhq(uid, mdid)
     //UserInfo
     app.util.request({
       'url': 'entry/wxapp/UserInfo',
       'cachetime': '0',
-      data: { user_id: uid },
+      data: {
+        user_id: uid
+      },
       success: function (res) {
         console.log('用户信息', res.data)
-        if (res.data.discount!=null){
+        if (res.data.discount != null) {
           var discount = res.data.discount
-        }
-        else{
+        } else {
           var discount = 100
         }
         that.setData({
@@ -645,16 +677,16 @@ Page({
           discount: discount,
           integral: res.data.integral,
         })
-        if (res.data.grade == '0'){
+        if (res.data.grade == '0') {
           wx.showModal({
             title: '提示',
             content: '开卡成为会员能享受优惠买单哦~',
           })
-          setTimeout(function(){
+          setTimeout(function () {
             wx.redirectTo({
               url: '../my/login',
             })
-          },1500)
+          }, 1500)
         }
       }
     });
@@ -662,7 +694,9 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/StoreInfo',
       'cachetime': '0',
-      data: { id: mdid },
+      data: {
+        id: mdid
+      },
       success: function (res) {
         console.log('门店信息', res.data)
         // that.lqyhq(uid, res.data.id)
@@ -690,7 +724,7 @@ Page({
         console.log(res)
         that.setData({
           xtxx: res.data,
-          url:url,
+          url: url,
           jf_proportion: res.data.jf_proportion,
         })
         wx.setNavigationBarColor({
@@ -701,18 +735,16 @@ Page({
           that.setData({
             kqyue: true
           })
-        }
-        else {
+        } else {
           that.setData({
             kqyue: false
           })
         }
-        if (res.data.is_jf == '1' && res.data.is_jfpay=='1' ) {
+        if (res.data.is_jf == '1' && res.data.is_jfpay == '1') {
           that.setData({
             kqjf: true
           })
-        }
-        else {
+        } else {
           that.setData({
             kqjf: false
           })
@@ -732,7 +764,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   
+
   },
 
   /**
@@ -753,7 +785,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-   wx.stopPullDownRefresh()
+    wx.stopPullDownRefresh()
   },
 
   /**
