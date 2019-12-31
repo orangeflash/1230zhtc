@@ -60,6 +60,21 @@ Page({
       url: '/zh_tcwq/pages/extra/yy/yysz?store_id=' + this.data.seller.id,
     })
   },
+  yylb(){
+    wx.navigateTo({
+      url: '/zh_tcwq/pages/extra/yy/yylb?store_id=' + this.data.seller.id,
+    })
+  },
+  sylb(){
+    wx.navigateTo({
+      url: '/zh_tcwq/pages/extra/yy/dmflb?store_id=' + this.data.seller.id,
+    })
+  },
+  fklb(){
+    wx.navigateTo({
+      url: '/zh_tcwq/pages/extra/yy/fklb?store_id=' + this.data.seller.id,
+    })
+  },
   fbyhq: function () {
     wx.navigateTo({
       url: '../wdq/fbyhq?store_id=' + this.data.seller.id,

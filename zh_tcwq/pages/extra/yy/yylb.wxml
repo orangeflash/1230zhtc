@@ -1,0 +1,55 @@
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml" />
+<block wx:if="{{show_index}}">
+  <navigator class="return-index-btn" openType="redirect" url="/pages/index/index">
+    <image src="/images/nav-icon-index.png" style="width: 50rpx;height: 50rpx"></image>
+  </navigator>
+</block>
+<view class="order-list" style="padding-top:0">
+  <block wx:if="{{storelist.length==0&&mygd}}">
+    <view class="no-data-tip zwdd">
+      <image mode='aspectFit' src='../../image/list.png'></image>
+      <view>您暂无相关数据哦~</view>
+      <!-- <navigator style='border:2rpx solid {{color}};color:{{color}}' open-type='reLaunch' url='../index/index' class='sygg'>去首页逛逛吧</navigator> -->
+    </view>
+  </block>
+  <block wx:for="{{storelist}}" wx:for-item="item" wx:key="*this" wx:for-index="index">
+    <view class="weui-cells">
+      <view class="weui-cell">
+        <view class="weui-cell__hd">
+          <image src="{{item.user_img}}" class="hdimg"></image>
+        </view>
+        <view class="weui-cell__bd">{{item.user_name}}</view>
+        <view class="weui-cell__ft">{{item.time}}</view>
+      </view>
+      <view  class="weui-cell">
+        <view class="weui-cell__bd">联系人</view>
+        <view class="weui-cell__ft">{{item.name}}</view>
+      </view>
+      <view  class="weui-cell">
+        <view class="weui-cell__bd">联系电话</view>
+        <view class="weui-cell__ft">{{item.tel}}</view>
+      </view>
+      <view  class="weui-cell">
+        <view class="weui-cell__bd">项目类型</view>
+        <view class="weui-cell__ft">{{item.type}}</view>
+      </view>
+      <view  class="weui-cell">
+        <view class="weui-cell__bd">项目名称</view>
+        <view class="weui-cell__ft">{{item.typeName}}</view>
+      </view>
+      <view  class="weui-cell">
+        <view class="weui-cell__bd">备注</view>
+        <view class="weui-cell__ft">{{item.note}}</view>
+      </view>
+    </view>
+  </block>
+  <view class='loading' hidden='{{mygd}}'>
+    <image mode='widthFix' class='' src='../../image/loading.gif'></image>
+    <view>加载中...</view>
+  </view>
+  <view wx:if="{{mygd}}" class='jzwb'>
+    <view class='hx'></view>
+    <view class='wz'>加载完毕</view>
+    <view class='hx'></view>
+  </view>
+</view>

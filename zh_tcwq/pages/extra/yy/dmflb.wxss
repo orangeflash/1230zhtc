@@ -1,0 +1,23 @@
+@import "/zh_tcwq/utils/ccsc.wxss";
+@import "/zh_tcwq/utils/order.wxss";
+.container{
+  width: 100%;
+}
+.weui-cells{
+  font-size: 28rpx;
+  margin-bottom: 30rpx;
+}
+.weui-cell__bd{
+  min-width: 180rpx;
+}
+.hdimg{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 30rpx;
+}
+.tjxm{
+  color: #fff;
+  padding: 8rpx 20rpx;
+  border-radius: 10rpx;
+}

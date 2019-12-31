@@ -71,7 +71,6 @@ Page({
     })
     console.log(options+'这是商家的id')
     that.getuserinfo()
-    that.refresh()
   },
 
   refresh: function (e) {
@@ -104,7 +103,7 @@ Page({
         res.data.good.lb_imgs = res.data.good.lb_imgs.split(",")
         var cost = Number(that.data.cost)
         var freight = Number(res.data.good.freight), freight2 = Number(res.data.good.freight);
-        var cost2 = cost + freight
+        var hydkje=+(cost * (10 - (that.data.user_info.vipInfo.discount || 10)) / 10).toFixed(2),cost2 = cost + freight-hydkje,
         cost2 = cost2.toFixed(2)
         that.setData({
           store_good: res.data.good,
@@ -113,6 +112,7 @@ Page({
           freight2:freight2,
           result: result,
           cost3:cost2,
+          hydkje,
         })
       },
     })
@@ -213,7 +213,7 @@ Page({
     var that = this
     var user_id = wx.getStorageSync('users').id
     app.util.request({
-      'url': 'entry/wxapp/GetUserInfo',
+      'url': 'entry/wxapp/UserInfo',
       'cachetime': '0',
       data: { user_id: user_id },
       success: function (res) {
@@ -222,6 +222,7 @@ Page({
           user_info: res.data,
           openid: res.data.openid,
         })
+        that.refresh()
       },
     })
   },

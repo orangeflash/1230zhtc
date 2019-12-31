@@ -77,6 +77,10 @@
         <text class="psfont1">小计：¥</text>
         <text class="psfont2">{{cost}}</text>
       </view>
+       <view wx:if='{{hydkje>0}}' class="psbottom">会员抵扣
+        <text class="psfont1">-¥</text>
+        <text class="psfont2">{{hydkje}}</text>
+      </view>
       <view class="psbottom">运费：
         <text class="psfont1">¥</text>
         <text class="psfont2">{{freight}}</text>

@@ -514,7 +514,8 @@ Page({
       'url': 'entry/wxapp/StoreInfo',
       'cachetime': '0',
       data: {
-        id: that.data.id
+        id: that.data.id,
+        userId:that.data.user_info.id,
       },
       success: function (res) {
         console.log(res)

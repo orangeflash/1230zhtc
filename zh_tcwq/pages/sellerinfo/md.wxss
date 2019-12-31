@@ -323,3 +323,17 @@
   width: 100%;
   height: 280rpx;
 }
+.yhcon{
+  border-radius: 15rpx;
+  overflow: hidden;
+  margin-top: 20rpx;
+}
+.picker{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.picker picker{
+  flex: 1;font-size: 28rpx;
+}

@@ -24,7 +24,7 @@
 <view class='bdhimg'>
   <image mode='aspectFill' src='{{url}}{{mdinfo.logo}}'></image>
 </view>
-<view class="weui-cells">
+<view wx:if='{{radioItems.length}}' class="weui-cells">
   <radio-group bindchange="zfradioChange">
     <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
       <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
@@ -35,77 +35,68 @@
     </label>
   </radio-group>
 </view>
-<view class='bd'>
-  <view class='mdname'>{{mdinfo.store_name}}</view>
-  <view class='input {{focus?"inputjj":""}}' bindtap='hqjd'>
-    <view class='inputleft'>
-      <view class='inputleft1'>消费金额</view>
-      <view class='inputleft2'>￥</view>
+  <view class='bd'>
+    <view class='mdname'>{{mdinfo.store_name}}</view>
+    <block wx:if='{{zfmode!=1}}'>
+    <view class='input {{focus?"inputjj":""}}' bindtap='hqjd'>
+      <view class='inputleft'>
+        <view class='inputleft1'>消费金额</view>
+        <view class='inputleft2'>￥</view>
+      </view>
+      <input bindinput='bindinput' bindblur='sqjd' class='inputright' focus='{{focus}}' cursor='200' type='digit' maxlength='8'></input>
+      <view>元</view>
     </view>
-    <input bindinput='bindinput' bindblur='sqjd' class='inputright' focus='{{focus}}' cursor='200' type='digit' maxlength='8'></input>
-    <view>元</view>
-  </view>
-  <!-- <view><image></image><view></view></view> -->
-  <!-- <view class='hyzx'>
-    <view class='hyzxh'>
-      <view>会员专享</view>
-      <view>({{userInfo.name}}:{{userInfo.level_name}})</view>
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-      <checkbox-group class="radio-group1" name="checkbox-group" bindchange="checkboxChange">
-        <label>
-          <view class="weui-cell">
-            <view class="weui-cell__hd" class='zfimgtext'>
-              折
-            </view>
-            <view class="weui-cell__bd" bindtap='yuan'>
-              <view>您是{{userInfo.level_name}}，可享受{{userInfo.discount/10}}折优惠</view>
-              <image src='../../img/wenhao.png'></image>
-            </view>
-            <view class="weui-cell__ft">
-              <view class='kcje' style='margin-right:0'>-￥{{discounttext}}</view>
-            </view>
-          </view>
-        </label>
-        <view class="weui-cell">
-          <view class="weui-cell__hd" class='zfimgtext' style='background:#FE7400;'>
-            券
-          </view>
-          <view class="weui-cell__bd" bindtap='qlq'>
-            <view class='xzyhq'>优惠券(已选{{yhqnum}}张{{yhqname}})</view>
-            <image src='../../img/yhqsz.png'></image>
-          </view>
-          <label>
-            <view class="weui-cell__ft">
-              <view class='kcje'>-￥{{kdje}}</view>
-              <checkbox value="quan" />
-            </view>
-          </label>
+    </block>
+    <view class="weui-cells yhcon">
+    <block wx:if='{{zfmode==1}}'>
+    <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+          <view class="weui-label">选择项目</view>
         </view>
-         <label>
-          <view class="weui-cell">
-            <view class="weui-cell__hd" class='zfimgtext' style='background:#FE7400;'>
-              积
-            </view>
-            <view class="weui-cell__bd" bindtap='ji'>
-              <view> 积分(可用积分0)</view>
-              <image src='../../img/wenhao.png'></image>
-            </view>
-            <view class="weui-cell__ft">
-              <view class='kcje'>-￥0</view>
-              <checkbox value="jf" />
-            </view>
-          </view>
-        </label> 
-      </checkbox-group>
+        <view class="weui-cell__bd picker">
+          <picker bindchange='bindTypeChange' name='splx' value="{{countryIndex}}" range-key='name' range="{{countries}}">
+            <view class="weui-select weui-select_in-select-after">{{countries[countryIndex].name}}</view>
+          </picker>
+        </view>
     </view>
-  </view> -->
-</view>
-<form bindsubmit="qrmd" report-submit="true" bindreset="formReset">
-  <view class="weui-btn-area">
-    <button class="weui-btn" formType="submit" type="primary" disabled='{{disabled}}' style='background:{{disabled?"#dedede":xtxx.color}};'>确认买单{{total}}元</button>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">选择月份</view>
+      </view>
+      <view class="weui-cell__bd picker">
+        <picker mode="date" fields='month' name='starttime' value="{{timestart}}" start="{{start}}" end="" bindchange="bindTimeChange">
+          <view class="weui-input weui-select weui-select_in-select-after">{{timestart}}</view>
+        </picker>
+        <view style='margin-right:20rpx'>至</view>
+        <picker mode="date" fields='month' name='endtime' value="{{timeend}}" start="{{start}}" end="" bindchange="bindTimeChange1">
+          <view class="weui-input weui-select weui-select_in-select-after">{{timeend}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">相差月份</view>
+      <view class="weui-cell__ft">{{month}}个月</view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">每月收费</view>
+      <view class="weui-cell__ft">{{countries[countryIndex].money}}</view>
+    </view>
+    </block>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">会员折扣</view>
+      <view class="weui-cell__ft">-{{hyzkje}}</view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">积分折扣<text style="margin-left:20rpx">当前积分：({{userInfo.total_score}})</text></view>
+      <view class="weui-cell__ft">-{{jfzkje}}</view>
+    </view>
   </view>
-</form>
+  </view>
+  <form bindsubmit="qrmd" report-submit="true" bindreset="formReset">
+    <view class="weui-btn-area">
+      <button class="weui-btn" formType="submit" type="primary" disabled='{{disabled}}' style='background:{{disabled?"#dedede":xtxx.color}};'>确认买单{{total}}元</button>
+    </view>
+  </form>
 <!--尾部版权  -->
 <view class='copyright'>
   <view class='copyright_logo' data-appid="{{xtxx.tz_appid}}" bindtap='tzxcx'>

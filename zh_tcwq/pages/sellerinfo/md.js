@@ -12,7 +12,7 @@ Page({
     listarr: ['代金券', '折扣券'],
     activeIndex: 0,
     focus: true,
-    disabled: true,
+    disabled: false,
     qlq: true,
     djq: [],
     zkq: [],
@@ -33,16 +33,67 @@ Page({
     marqueeDistance: 0,
     size: 14,
     interval: 20,
-    radioItems: [{
-        name: '不按月收费',
-        value: '0',
-        checked: true
-      },
-      {
-        name: '按月收费',
-        value: '1',
+    radioItems: [],
+    countryIndex: 0,
+    zfmode: 0,
+    jfzkje: 0,
+    hyzkje: 0,
+  },
+  getTotal() {
+    let v = this.data, zfmode = v.zfmode, srmoney = v.srmoney || 0, xzmoney = v.countries[v.countryIndex].money, xcyf = util.calculateDiffTime(new Date(v.timestart).getTime(), new Date(v.timeend).getTime()), month = 0, jfbl = (v.mdinfo.integral_max || 0) / 100, hyzk = v.userInfo.vipInfo.discount || 10, jfzkje = 0, hyzkje = 0, total = 0, yhjf = v.userInfo.total_score
+    if (zfmode == 1) {
+      let money = 0
+      if (xcyf[0]) {
+        month = xcyf[0] * 12 + xcyf[1]
+      } else {
+        month = xcyf[1]
       }
-    ],
+      money = xzmoney * month
+      hyzkje = +(money * (10 - hyzk) / 10).toFixed(2)
+      // console.log(m,money)
+      if (yhjf - (money - hyzkje) * jfbl >= 0) {
+        jfzkje = Math.ceil((money - hyzkje) * jfbl)
+      } else {
+        jfzkje = +yhjf
+      }
+      total = money - jfzkje - hyzkje
+    } else {
+      hyzkje = +(srmoney * (10 - hyzk) / 10).toFixed(2)
+      // console.log(m,money)
+      if (yhjf - (srmoney - hyzkje) * jfbl >= 0) {
+        jfzkje = Math.ceil((srmoney - hyzkje) * jfbl)
+      } else {
+        jfzkje = +yhjf
+      }
+      total = srmoney - jfzkje - hyzkje
+    }
+    this.setData({
+      jfzkje,
+      hyzkje,
+      total:+total.toFixed(2),
+      month,
+    })
+    console.log(zfmode, srmoney, xzmoney, xcyf, jfbl, hyzk, yhjf)
+  },
+  bindTypeChange: function (e) {
+    this.setData({
+      countryIndex: e.detail.value,
+    })
+    this.getTotal()
+  },
+  bindTimeChange: function (e) {
+    this.setData({
+      timestart: e.detail.value
+    })
+    this.getTotal()
+    console.log(e.detail.value)
+  },
+  bindTimeChange1: function (e) {
+    this.setData({
+      timeend: e.detail.value
+    })
+    this.getTotal()
+    console.log(e.detail.value)
   },
   zfradioChange: function (e) {
     var radioItems = this.data.radioItems;
@@ -51,8 +102,10 @@ Page({
     }
 
     this.setData({
-      radioItems: radioItems
+      radioItems: radioItems,
+      zfmode: e.detail.value,
     });
+    this.getTotal()
   },
   scrolltxt: function () {
     var that = this;
@@ -79,24 +132,26 @@ Page({
       uid = wx.getStorageSync('users').id,
       sjid = this.data.mdinfo.id,
       openid = wx.getStorageSync("openid"),
-      form_id = e.detail.formId;
-    console.log(xfje, uid, sjid, openid, form_id)
+      form_id = e.detail.formId,
+      v = this.data,
+      zfmode = v.zfmode, xzitem = v.countries[v.countryIndex], endTime = v.timeend, startTime = v.timestart
+    console.log(xfje, uid, sjid, openid, form_id, zfmode, xzitem, endTime, startTime)
     app.util.request({
       'url': 'entry/wxapp/SaveFormid',
       'cachetime': '0',
       data: {
         user_id: uid,
         form_id: form_id,
-        openid: openid
+        openid: openid,
       },
       success: function (res) {
 
       },
     })
-    if (xfje == 0) {
+    if (xfje <= 0) {
       wx.showModal({
         title: '提示',
-        content: '消费金额不能为0哦~',
+        content: '消费金额不能小于0哦~',
       })
       return false
     }
@@ -110,8 +165,12 @@ Page({
       'cachetime': '0',
       data: {
         user_id: uid,
-        money: xfje,
-        store_id: sjid
+        money: v.srmoney,
+        store_id: sjid,
+        type: zfmode == 1 ? 2 : 1,
+        typeId: xzitem.id,
+        endTime,
+        startTime,
       },
       success: function (res) {
         console.log(res)
@@ -287,53 +346,10 @@ Page({
     this.jstotal();
   },
   bindinput: function (e) {
-    console.log(e.detail.value, this.data.yhqfull, this.data.yhqname, this.data.yhqkdje)
-    // if (Number(e.detail.value) < Number(this.data.yhqfull)){
-    //   wx.showModal({
-    //     title: '温馨提示',
-    //     content: '您的消费金额发生了改变，请重新选择优惠券',
-    //   })
-    //   this.setData({
-    //     isyhq: false,
-    //     radioChange: '',
-    //     yhqnum: 0,
-    //     kdje: 0,
-    //     yhqfull:'',
-    //     yhqname: '',
-    //     yhqkdje:'0',
-    //     activeradio:'abc',
-    //   })
-    // }
-    // var that = this;
-    // if (this.data.yhqname == '折扣券') {
-    //   console.log(this.data.yhqname)
-    //   this.setData({
-    //     kdje: ((1 - Number(that.data.yhqkdje) * 0.1) * Number(e.detail.value)).toFixed(2),
-    //   })
-    // }
-    // else {
-    //   console.log(this.data.yhqname)
-    // }
-    // console.log(e.detail.value,this.data)
-    // var discount =1-Number(this.data.discount)/100;
-    // console.log(discount)
-    // var discounttext = (Number(e.detail.value) * discount).toFixed(2);
-    // this.setData({
-    //   discounttext: discounttext,
-    //   xfje: Number(e.detail.value),
-    // })
-    if (e.detail.value != '') {
-      this.setData({
-        disabled: false,
-        total: Number(e.detail.value).toFixed(2)
-      })
-    } else {
-      this.setData({
-        disabled: true,
-        total: 0,
-      })
-    }
-    // this.jstotal();
+    this.setData({
+      srmoney: e.detail.value
+    })
+    this.getTotal()
   },
   //点击切换排序
   tabClick: function (e) {
@@ -393,259 +409,6 @@ Page({
       }
     });
   },
-  // formSubmit: function (e) {
-  //   var that=this;
-  //   var openid = getApp().getOpenId;
-  //   console.log('form发生了submit事件，携带数据为：', e.detail.value.radiogroup)
-  //   var form_id = e.detail.formId, uid = wx.getStorageSync('UserData').id, sjid = wx.getStorageSync('mdid'), xfje = this.data.xfje, money = this.data.total, zhe = this.data.discounttext,sjname=this.data.mdinfo.name;
-  //   if(this.data.isyhq){
-  //   var yhqid = this.data.radioChange
-  //   var quan = this.data.kdje
-  //   }
-  //   else{
-  //   var yhqid = '';
-  //   var quan=0;
-  //   }
-  //   console.log(openid,form_id, uid, sjid, '总价', xfje,'实付',money,'zhe',zhe,'quan',quan,'优惠券id',yhqid,sjname)
-  //   if (e.detail.value.radiogroup == 'yezf') {
-  //     var ye = Number(this.data.userInfo.wallet), total = Number(this.data.total);
-  //     console.log(ye, total)
-  //     if (ye < total) {
-  //       wx.showToast({
-  //         title: '余额不足支付',
-  //         icon: 'loading',
-  //       })
-  //       return
-  //     }
-  //   }
-  //   var dyjf = 0;
-  //   if (e.detail.value.radiogroup == 'jfzf') {
-  //     var jf = Number(this.data.integral) / Number(this.data.jf_proportion), sfmoney = Number(this.data.total);
-  //     dyjf = (sfmoney * Number(this.data.jf_proportion)).toFixed(2);
-  //     console.log(jf, sfmoney, dyjf)
-  //     if (jf < sfmoney) {
-  //       wx.showToast({
-  //         title: '积分不足支付',
-  //         icon: 'loading',
-  //       })
-  //       return
-  //     }
-  //   }
-  //   if (e.detail.value.radiogroup == 'yezf') {
-  //     var is_yue =2;
-  //   }
-  //   if (e.detail.value.radiogroup == 'wxzf') {
-  //     var is_yue = 1;
-  //   }
-  //   if (e.detail.value.radiogroup == 'jfzf') {
-  //     var is_yue = 3;
-  //   }
-  //   console.log('是否余额', is_yue)
-  //   if (form_id == '') {
-  //     wx: wx.showToast({
-  //       title: '没有获取到formid',
-  //       icon: 'loading',
-  //       duration: 1000,
-  //     })
-  //   } else {
-  //     this.setData({
-  //       zfz: true,
-  //     })
-  //     if (e.detail.value.radiogroup == 'yezf') {
-  //       console.log('余额支付流程')
-  //       // 下单
-  //       app.util.request({
-  //         'url': 'entry/wxapp/addorder',
-  //         'cachetime': '0',
-  //         data: { price: xfje, money: money, store_id: sjid, user_id: uid, pay_type: is_yue, preferential: zhe, preferential2:quan,coupons_id:yhqid},
-  //         success: function (res) {
-  //           console.log(res)
-  //           var order_id = res.data;
-  //           that.setData({
-  //             zfz: false,
-  //             showModal: false,
-  //           })
-  //           if (res.data != '下单失败') {
-  //             wx.showToast({
-  //               title: '支付成功',
-  //             })
-  //             setTimeout(function(){
-  //               wx.redirectTo({
-  //                 url: '../my/wdzd',
-  //               })
-  //             },1000)
-  //             // // 打印机
-  //             // app.util.request({
-  //             //   'url': 'entry/wxapp/dmPrint',
-  //             //   'cachetime': '0',
-  //             //   data: { order_id: order_id },
-  //             //   success: function (res) {
-  //             //     console.log(res)
-  //             //   },
-  //             // })
-  //             app.util.request({
-  //               'url': 'entry/wxapp/Print',
-  //               'cachetime': '0',
-  //               data: { order_id: order_id },
-  //               success: function (res) {
-  //                 console.log(res)
-  //               },
-  //             })
-  //             // 下单发送模板消息
-  //             app.util.request({
-  //               'url': 'entry/wxapp/Message',
-  //               'cachetime': '0',
-  //               data: { openid: openid, form_id: form_id, store_name: sjname, money: money + '元' },
-  //               success: function (res) {
-  //                 console.log(res)
-  //                 wx.showToast({
-  //                   title: '支付成功',
-  //                   duration: 2000
-  //                 })
-  //                 // setTimeout(function () {
-  //                 //   wx.navigateBack({
-  //                 //     delta: 1
-  //                 //   })
-  //                 // }, 1000)
-  //               },
-  //             })
-  //           }
-  //           else {
-  //             wx.showToast({
-  //               title: '支付失败',
-  //               icon: 'loading',
-  //             })
-  //           }
-  //         },
-  //       })
-  //     }
-  //     else if (e.detail.value.radiogroup == 'jfzf') {
-  //       console.log('积分支付流程')
-  //       // 下单
-  //       app.util.request({
-  //         'url': 'entry/wxapp/addorder',
-  //         'cachetime': '0',
-  //         data: { price: xfje, money: money, store_id: sjid, user_id: uid, pay_type: is_yue, preferential: zhe, preferential2: quan, coupons_id: yhqid, jf: dyjf },
-  //         success: function (res) {
-  //           console.log(res)
-  //           var order_id = res.data;
-  //           that.setData({
-  //             zfz: false,
-  //             showModal: false,
-  //           })
-  //           if (res.data != '下单失败') {
-  //             wx.showToast({
-  //               title: '支付成功',
-  //             })
-  //             setTimeout(function () {
-  //               wx.redirectTo({
-  //                 url: '../my/wdzd',
-  //               })
-  //             }, 1000)
-  //             app.util.request({
-  //               'url': 'entry/wxapp/Print',
-  //               'cachetime': '0',
-  //               data: { order_id: order_id },
-  //               success: function (res) {
-  //                 console.log(res)
-  //               },
-  //             })
-  //             // 下单发送模板消息
-  //             app.util.request({
-  //               'url': 'entry/wxapp/Message',
-  //               'cachetime': '0',
-  //               data: { openid: openid, form_id: form_id, store_name: sjname, money: money + '元' },
-  //               success: function (res) {
-  //                 console.log(res)
-  //                 wx.showToast({
-  //                   title: '支付成功',
-  //                   duration: 2000
-  //                 })
-  //               },
-  //             })
-  //           }
-  //           else {
-  //             wx.showToast({
-  //               title: '支付失败',
-  //               icon: 'loading',
-  //             })
-  //           }
-  //         },
-  //       })
-  //     }
-  //     else {
-  //       console.log('微信支付流程')
-  //       if(money==0){
-  //         wx.showModal({
-  //           title: '提示',
-  //           content: '0元买单请选择其他方式支付',
-  //         })
-  //         that.setData({
-  //           zfz: false,
-  //         })
-  //       }
-  //       else{
-  //         // 下单
-  //         app.util.request({
-  //           'url': 'entry/wxapp/addorder',
-  //           'cachetime': '0',
-  //           data: { price: xfje, money: money, store_id: sjid, user_id: uid, pay_type: is_yue, preferential: zhe, preferential2: quan, coupons_id: yhqid, form_id: form_id, },
-  //           success: function (res) {
-  //             console.log(res)
-  //             var order_id = res.data;
-  //             if (res.data != '下单失败') {
-  //               app.util.request({
-  //                 'url': 'entry/wxapp/pay',
-  //                 'cachetime': '0',
-  //                 data: { openid: openid, money: money,order_id:res.data },
-  //                 success: function (res) {
-  //                   console.log(res)
-  //                   that.setData({
-  //                     zfz: false,
-  //                     showModal: false,
-  //                   })
-  //                   wx.requestPayment({
-  //                     'timeStamp': res.data.timeStamp,
-  //                     'nonceStr': res.data.nonceStr,
-  //                     'package': res.data.package,
-  //                     'signType': res.data.signType,
-  //                     'paySign': res.data.paySign,
-  //                     'success': function (res) {
-  //                       console.log(res.data)
-  //                       console.log(res)
-  //                       console.log(form_id)
-  //                     },
-  //                     'complete': function (res) {
-  //                       console.log(res);
-  //                       if (res.errMsg == 'requestPayment:fail cancel') {
-  //                         wx.showToast({
-  //                           title: '取消支付',
-  //                           icon: 'loading',
-  //                           duration: 1000
-  //                         })
-  //                       }
-  //                       if (res.errMsg == 'requestPayment:ok') {
-  //                         wx.showToast({
-  //                           title: '支付成功',
-  //                           duration: 2000
-  //                         })
-  //                         setTimeout(function () {
-  //                           wx.redirectTo({
-  //                             url: '../my/wdzd',
-  //                           })
-  //                         }, 1000)
-  //                       }
-  //                     }
-  //                   })
-  //                 },
-  //               })
-  //             }
-  //           },
-  //         })
-  //       }
-  //     }
-  //   }
-  // },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -658,6 +421,12 @@ Page({
     var uid = wx.getStorageSync('users').id;
     console.log(uid)
     that.lqyhq(uid, mdid)
+    var start = util.formatTime(new Date).substring(0, 7).replace(/\//g, "-");
+    this.setData({
+      start: start,
+      timestart: start,
+      timeend: start,
+    });
     //UserInfo
     app.util.request({
       'url': 'entry/wxapp/UserInfo',
@@ -698,7 +467,7 @@ Page({
         id: mdid
       },
       success: function (res) {
-        console.log('门店信息', res.data)
+        // console.log('门店信息', res.data)
         // that.lqyhq(uid, res.data.id)
         that.setData({
           mdinfo: res.data.store[0],
@@ -706,14 +475,28 @@ Page({
         wx.setNavigationBarTitle({
           title: '欢迎光临' + res.data.store[0].store_name,
         })
-        var length = res.data.store[0].details.length * that.data.size;
+        var length = res.data.store[0].details.length * that.data.size,
+          arr = [];
 
         var windowWidth = wx.getSystemInfoSync().windowWidth;
-        console.log(length, windowWidth);
+        // console.log(length, windowWidth);
+        if (res.data.store[0].is_month == 1) {
+          arr = [{
+            name: '不按月收费',
+            value: '0',
+            checked: true
+          },
+          {
+            name: '按月收费',
+            value: '1',
+          }
+          ]
+        }
         that.setData({
           length: length,
-          windowWidth: windowWidth
-        });
+          windowWidth: windowWidth,
+          radioItems: arr,
+        })
         that.scrolltxt();
       }
     });
@@ -751,6 +534,17 @@ Page({
         }
       },
     })
+    app.util.request({
+      'url': 'entry/wxapp/DmService',
+      data: {
+        storeId: mdid
+      },
+      success: (res) => {
+        this.setData({
+          countries: res.data,
+        })
+      }
+    });
   },
 
   /**

@@ -195,6 +195,18 @@
         <image class="secimg" bindtap='qtsz' mode='aspectFill' src="../image/selle.png"></image>
         <view class="sectext">其他设置</view>
       </view>
+      <view class="seclist">
+        <image class="secimg" bindtap='yylb' mode='aspectFill' src="../image/order.png"></image>
+        <view class="sectext">预约列表</view>
+      </view>
+      <view class="seclist">
+        <image class="secimg" bindtap='sylb' mode='aspectFill' src="../image/fangchan.png"></image>
+        <view class="sectext">收银列表</view>
+      </view>
+      <view class="seclist">
+        <image class="secimg" bindtap='fklb' mode='aspectFill' src="../image/renqun.png"></image>
+        <view class="sectext">访客列表</view>
+      </view>
     </view>
   </view>
 </view>
