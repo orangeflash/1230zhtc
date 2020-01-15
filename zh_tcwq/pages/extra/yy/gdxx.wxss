@@ -1,0 +1,7 @@
+/* zh_tcwq/pages/extra/yy/xmmx.wxss */
+.weui-cells{
+  font-size: 28rpx;
+}
+.weui-cell__hd{
+  width: 180rpx;
+}

@@ -3,7 +3,7 @@ var util = require('../../../utils/util.js');
 Page({
   data: {
     color: '#34aaff',
-    tablist: ['全部', '公司名称', '会员等级'],
+    tablist: ['全部', '公司名称', '会员等级', '服务员工'],
     status: 0,
     show_no_data_tip: !1,
     hide: 1,
@@ -16,6 +16,11 @@ Page({
   sfzj(e) {
     wx.navigateTo({
       url: '/zh_tcwq/pages/extra/yy/xmmx?userId=' + e.currentTarget.dataset.item.userId + '&storeId=' + e.currentTarget.dataset.item.storeId,
+    })
+  },
+  gdxx(e) {
+    wx.navigateTo({
+      url: '/zh_tcwq/pages/extra/yy/gdxx?id=' + e.currentTarget.dataset.item.id
     })
   },
   tabclick: function (e) {
@@ -132,11 +137,9 @@ Page({
     var qgstate
     if (status == 0) {
       qgstate = '2'
-    }
-    if (status == 1) {
+    } else if (status == 1) {
       qgstate = '1'
-    }
-    if (status == 2) {
+    } else if (status == 2) {
       qgstate = '3'
     }
     console.log(status, qgstate, store_id, page)

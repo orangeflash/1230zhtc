@@ -40,7 +40,7 @@ Page({
     hyzkje: 0,
   },
   getTotal() {
-    let v = this.data, zfmode = v.zfmode, srmoney = v.srmoney || 0, xzmoney = v.countries[v.countryIndex].money, xcyf = util.calculateDiffTime(new Date(v.timestart).getTime(), new Date(v.timeend).getTime()), month = 0, jfbl = (v.mdinfo.integral_max || 0) / 100, hyzk = v.userInfo.vipInfo.discount || 10, jfzkje = 0, hyzkje = 0, total = 0, yhjf = v.userInfo.total_score
+    let v = this.data, zfmode = v.zfmode, srmoney = v.srmoney || 0, xzmoney = v.countries[v.countryIndex]&&v.countries[v.countryIndex].money||0, xcyf = util.calculateDiffTime(new Date(v.timestart).getTime(), new Date(v.timeend).getTime()), month = 0, jfbl = (v.mdinfo.integral_max || 0) / 100, hyzk = v.userInfo.vipInfo.discount || 10, jfzkje = 0, hyzkje = 0, total = 0, yhjf = v.userInfo.total_score
     if (zfmode == 1) {
       let money = 0
       if (xcyf[0]) {

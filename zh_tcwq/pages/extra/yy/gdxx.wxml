@@ -1,0 +1,50 @@
+<!--zh_tcwq/pages/extra/yy/xmmx.wxml-->
+<form bindsubmit="cartaddformSubmit" report-submit="true" bindreset="formReset">
+	<view class="weui-cells weui-cells_after-title">
+		<view class="weui-cell">
+			<view class="weui-cell__hd">微信名</view>
+			<view class="weui-cell__bd">
+				<input class="weui-input" name="wx_name" value="{{info.wx_name}}" placeholder="请输入微信名" />
+			</view>
+		</view>
+		<view class="weui-cell">
+			<view class="weui-cell__hd">姓名</view>
+			<view class="weui-cell__bd">
+				<input class="weui-input" name="name" value="{{info.name}}" placeholder="请输入姓名" />
+			</view>
+		</view>
+		<view class="weui-cell">
+			<view class="weui-cell__hd">公司名称</view>
+			<view class="weui-cell__bd">
+				<input class="weui-input" name="company" value="{{info.company}}" placeholder="请输入公司名称" />
+			</view>
+		</view>
+		<view class="weui-cell">
+			<view class="weui-cell__hd">职务</view>
+			<view class="weui-cell__bd">
+				<input class="weui-input" name="position" value="{{info.position}}" placeholder="请输入职务" />
+			</view>
+		</view>
+		<view class="weui-cell">
+			<view class="weui-cell__hd">联系电话</view>
+			<view class="weui-cell__bd">
+				<input class="weui-input"  name="tel"value="{{info.tel}}" placeholder="请输入联系电话" />
+			</view>
+		</view>
+		<view class="weui-cell">
+			<view class="weui-cell__hd">公司住所</view>
+			<view class="weui-cell__bd">
+				<input class="weui-input" name="domicile" value="{{info.domicile}}" placeholder="请输入公司住所" />
+			</view>
+		</view>
+		<view class="weui-cell">
+			<view class="weui-cell__hd">服务员工</view>
+			<view class="weui-cell__bd">
+				<input class="weui-input" name="service_staff" value="{{info.service_staff}}" placeholder="请输入服务员工" />
+			</view>
+		</view>
+	</view>
+	<view class="weui-btn-area">
+		<button formType="submit" loading="{{loading}}" class="weui-btn" style='background:{{color}}' type="primary">确定提交</button>
+	</view>
+</form>
