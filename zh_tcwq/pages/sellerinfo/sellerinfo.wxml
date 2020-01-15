@@ -127,7 +127,7 @@
         <view class="top_xingtext" wx:else>{{score}}分</view>
       </view>
     </view>
-    <view class='vr_store ab' bindtap='Demonstration' wx:if="{{store.vr_link!=''}}">VR演示</view>
+    <view class='vr_store ab' bindtap='Demonstration' wx:if="{{store.vr_link!=''}}">在线客服</view>
   </view>
 
   <view class="top_renqi">

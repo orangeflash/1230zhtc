@@ -1,0 +1,7 @@
+<!--zh_tcwq/pages/extra/yy/xmmx.wxml-->
+<view class="weui-cells weui-cells_after-title">
+	<view wx:for="{{xminfo}}" class="weui-cell">
+		<view class="weui-cell__bd">{{item.name}}</view>
+		<view class="weui-cell__ft">收费总计：{{item.userMoney}}</view>
+	</view>
+</view>

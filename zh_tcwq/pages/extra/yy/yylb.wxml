@@ -37,6 +37,10 @@
         <view class="weui-cell__bd">项目名称</view>
         <view class="weui-cell__ft">{{item.typeName}}</view>
       </view>
+      <view wx:if="{{item.yy_time}}"  class="weui-cell">
+        <view class="weui-cell__bd">预约时间</view>
+        <view class="weui-cell__ft">{{item.yy_time}}</view>
+      </view>
       <view  class="weui-cell">
         <view class="weui-cell__bd">备注</view>
         <view class="weui-cell__ft">{{item.note}}</view>

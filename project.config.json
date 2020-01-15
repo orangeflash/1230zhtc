@@ -121,6 +121,13 @@
 					"pathName": "zh_tcwq/pages/sellerinfo/md",
 					"query": "sjid=4849",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "zh_tcwq/pages/extra/yy/yy",
+					"pathName": "zh_tcwq/pages/extra/yy/yy",
+					"query": "store_id=4849",
+					"scene": null
 				}
 			]
 		}

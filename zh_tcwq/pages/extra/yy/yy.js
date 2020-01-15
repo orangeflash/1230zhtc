@@ -288,6 +288,7 @@ Page({
           data: {
             storeId: mdid,
             userId: uid,
+            yy_time: jztime,
             ...params,
           },
           success: function (res) {

@@ -3,7 +3,7 @@ var util = require('../../../utils/util.js');
 Page({
   data: {
     color: '#34aaff',
-    tablist: ['已通过', '待审核', '已拒绝'],
+    tablist: ['全部', '公司名称', '会员等级'],
     status: 0,
     show_no_data_tip: !1,
     hide: 1,
@@ -13,10 +13,15 @@ Page({
     mygd: false,
     jzgd: true,
   },
+  sfzj(e) {
+    wx.navigateTo({
+      url: '/zh_tcwq/pages/extra/yy/xmmx?userId=' + e.currentTarget.dataset.item.userId + '&storeId=' + e.currentTarget.dataset.item.storeId,
+    })
+  },
   tabclick: function (e) {
     // console.log(e)
     this.setData({
-      // status: e.currentTarget.dataset.index,
+      status: e.currentTarget.dataset.index,
       pagenum: 1,
       storelist: [],
       mygd: false,
@@ -26,7 +31,7 @@ Page({
   },
   onLoad: function (t) {
     wx.setNavigationBarTitle({
-      title: '收银列表',
+      title: '访客列表',
     })
     app.setNavigationBarColor(this);
     var that = this;
@@ -77,7 +82,9 @@ Page({
       icon: 'none',
       duration: 2000
     })
-    var a = this, oid = this.data.storelist[e.currentTarget.dataset.index].id, note = this.data.storelist[e.currentTarget.dataset.index].note;
+    var a = this,
+      oid = this.data.storelist[e.currentTarget.dataset.index].id,
+      note = this.data.storelist[e.currentTarget.dataset.index].note;
     console.log(oid)
     wx.showModal({
       title: "提示",
@@ -90,7 +97,10 @@ Page({
           title: "操作中"
         }), app.util.request({
           'url': 'entry/wxapp/SaveVisitor',
-          data: { id: oid, note, },
+          data: {
+            id: oid,
+            note,
+          },
           success: function (res) {
             console.log(res.data)
             if (res.data == '1') {
@@ -102,8 +112,7 @@ Page({
               setTimeout(function () {
                 a.tabclick()
               }, 1000)
-            }
-            else {
+            } else {
               wx.showToast({
                 title: '请重试',
                 icon: 'loading',
@@ -116,7 +125,10 @@ Page({
     })
   },
   reLoad: function () {
-    var that = this, status = this.data.status, store_id = this.data.store_id, page = this.data.pagenum;
+    var that = this,
+      status = this.data.status,
+      store_id = this.data.store_id,
+      page = this.data.pagenum;
     var qgstate
     if (status == 0) {
       qgstate = '2'
@@ -131,7 +143,12 @@ Page({
     app.util.request({
       'url': 'entry/wxapp/StoreVisitor',
       'cachetime': '0',
-      data: { storeId: store_id, page: page, pagesize: 10 },
+      data: {
+        storeId: store_id,
+        page: page,
+        pagesize: 10,
+        sort: status
+      },
       success: function (res) {
         // console.log('分页返回的列表数据', res.data)
         for (let i = 0; i < res.data.length; i++) {
@@ -142,8 +159,7 @@ Page({
             mygd: true,
             jzgd: true,
           })
-        }
-        else {
+        } else {
           that.setData({
             jzgd: true,
             pagenum: that.data.pagenum + 1,
@@ -151,6 +167,7 @@ Page({
         }
         var storelist = that.data.storelist;
         storelist = storelist.concat(res.data);
+
         function unrepeat(arr) {
           var newarr = [];
           for (var i = 0; i < arr.length; i++) {
@@ -176,9 +193,7 @@ Page({
         jzgd: false
       })
       this.reLoad();
-    }
-    else {
-    }
+    } else {}
     // var r = this;
     // a || o || (a = !0, e.request({
     //   url: t.order.list,
@@ -202,7 +217,9 @@ Page({
     // }))
   },
   sjxj: function (e) {
-    var a = this, oid = e.currentTarget.dataset.id, state = e.currentTarget.dataset.state;
+    var a = this,
+      oid = e.currentTarget.dataset.id,
+      state = e.currentTarget.dataset.state;
     console.log(oid, state)
     wx.showModal({
       title: "提示",
@@ -216,7 +233,10 @@ Page({
         }), app.util.request({
           'url': 'entry/wxapp/AddQgGood',
           'cachetime': '0',
-          data: { id: oid, state: state == '1' ? 2 : 1 },
+          data: {
+            id: oid,
+            state: state == '1' ? 2 : 1
+          },
           success: function (res) {
             console.log(res.data)
             if (res.data == '1') {
@@ -230,8 +250,7 @@ Page({
                   url: 'wqpsp?store_id=' + a.data.store_id,
                 })
               }, 1000)
-            }
-            else {
+            } else {
               wx.showToast({
                 title: '请重试',
                 icon: 'loading',
@@ -248,9 +267,15 @@ Page({
       url: 'bjqgsp?spid=' + e.currentTarget.dataset.id,
     })
   },
-  hide: function (t) { this.setData({ hide: 1 }) },
+  hide: function (t) {
+    this.setData({
+      hide: 1
+    })
+  },
   hxqh: function (e) {
-    var a = this, oid = e.currentTarget.dataset.id, sjid = e.currentTarget.dataset.sjid;
+    var a = this,
+      oid = e.currentTarget.dataset.id,
+      sjid = e.currentTarget.dataset.sjid;
     console.log(oid, sjid)
     wx.showLoading({
       title: "加载中",
@@ -258,7 +283,9 @@ Page({
     }), app.util.request({
       'url': 'entry/wxapp/QgOrderCode',
       'cachetime': '0',
-      data: { order_id: oid },
+      data: {
+        order_id: oid
+      },
       success: function (res) {
         console.log(res.data)
         a.setData({

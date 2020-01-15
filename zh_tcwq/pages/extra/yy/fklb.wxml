@@ -4,7 +4,14 @@
     <image src="/images/nav-icon-index.png" style="width: 50rpx;height: 50rpx"></image>
   </navigator>
 </block>
-<view class="order-list" style="padding-top:0">
+<view class="flex-row tab-bar">
+  <view class="flex-grow-1" wx:for="{{tablist}}">
+    <view class="{{status==index?'active':''}}" bindtap='tabclick' data-index='{{index}}'>
+      <text style="color:{{status==index?color:''}};border-bottom:{{status==index?2:0}}rpx solid {{color}}">{{item}}</text>
+    </view>
+  </view>
+</view>
+<view class="order-list">
   <block wx:if="{{storelist.length==0&&mygd}}">
     <view class="no-data-tip zwdd">
       <image mode='aspectFit' src='../../image/list.png'></image>
@@ -24,6 +31,10 @@
       <view wx:if="{{item.vipName}}" class="weui-cell">
         <view class="weui-cell__bd">会员等级</view>
         <view class="weui-cell__ft">{{item.vipName}}</view>
+      </view>
+      <view class="weui-cell" bindtap="sfzj" data-item='{{item}}'>
+        <view class="weui-cell__bd">收费总计</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
       </view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">

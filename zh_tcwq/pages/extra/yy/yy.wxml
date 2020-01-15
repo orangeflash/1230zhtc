@@ -9,7 +9,7 @@
               <view class="weui-label">姓名</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" name='name' value="{{params.name}}" type="number" placeholder="请输入姓名" />
+              <input class="weui-input" name='name' value="{{params.name}}" placeholder="请输入姓名" />
             </view>
           </view>
           <!-- 优惠条件 -->
@@ -18,7 +18,7 @@
               <view class="weui-label">电话</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" name='tel' value="{{params.tel}}" placeholder="请输入手机或电话" />
+              <input class="weui-input" name='tel' value="{{params.tel}}" type="number" placeholder="请输入手机或电话" />
             </view>
           </view>
           <!-- 商品类型 -->
@@ -33,6 +33,17 @@
             </view>
           </view>
           <!-- 日期 -->
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+              <view class="weui-label">预约日期</view>
+            </view>
+            <view class="weui-cell__bd">
+              <picker mode="date" name='jztime' value="{{jztime}}" start="{{start}}" end="" bindchange="bindTimeChange2">
+                <view class="weui-input">{{jztime}}</view>
+              </picker>
+            </view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </view>
           <!-- <view class="weui-cell weui-cell_input"><view class="weui-cell__hd"><view class="weui-label">活动日期</view></view><view class="weui-cell__bd picker"><picker mode="date" name='starttime' value="{{timestart}}" start="{{start}}" end="" bindchange="bindTimeChange"><view class="weui-input weui-select weui-select_in-select-after">{{timestart}}</view></picker><view style='margin-right:20rpx'>至</view><picker mode="date" name='endtime' value="{{timeend}}" start="{{start}}" end="" bindchange="bindTimeChange1"><view class="weui-input weui-select weui-select_in-select-after">{{timeend}}</view></picker></view></view><view class="weui-cell weui-cell_input"><view class="weui-cell__hd"><view class="weui-label">消费截止时间</view></view><view class="weui-cell__bd"><input class="weui-input" value='7' style='font-size: 28rpx;text-align:center' name='jztime' type="number" placeholder="用户购买成功后几天后失效" /></view><view class="weui-cell__ft" style="color:black">
               天
             </view></view> -->
