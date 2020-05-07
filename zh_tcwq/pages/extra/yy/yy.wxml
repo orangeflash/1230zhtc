@@ -44,6 +44,17 @@
             </view>
             <view class="weui-cell__ft weui-cell__ft_in-access"></view>
           </view>
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+              <view class="weui-label">预约时间</view>
+            </view>
+            <view class="weui-cell__bd">
+              <picker mode="time" name='yytime' value="{{yytime}}"  bindchange="bindTimeChange3">
+                <view class="weui-input">{{yytime}}</view>
+              </picker>
+            </view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </view>
           <!-- <view class="weui-cell weui-cell_input"><view class="weui-cell__hd"><view class="weui-label">活动日期</view></view><view class="weui-cell__bd picker"><picker mode="date" name='starttime' value="{{timestart}}" start="{{start}}" end="" bindchange="bindTimeChange"><view class="weui-input weui-select weui-select_in-select-after">{{timestart}}</view></picker><view style='margin-right:20rpx'>至</view><picker mode="date" name='endtime' value="{{timeend}}" start="{{start}}" end="" bindchange="bindTimeChange1"><view class="weui-input weui-select weui-select_in-select-after">{{timeend}}</view></picker></view></view><view class="weui-cell weui-cell_input"><view class="weui-cell__hd"><view class="weui-label">消费截止时间</view></view><view class="weui-cell__bd"><input class="weui-input" value='7' style='font-size: 28rpx;text-align:center' name='jztime' type="number" placeholder="用户购买成功后几天后失效" /></view><view class="weui-cell__ft" style="color:black">
               天
             </view></view> -->

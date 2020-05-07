@@ -213,6 +213,10 @@
 				<image class="secimg" bindtap='fklb' mode='aspectFill' src="../image/renqun.png"></image>
 				<view class="sectext">访客列表</view>
 			</view>
+			<view class="seclist">
+				<image class="secimg" bindtap='xmtj' mode='aspectFill' src="../image/qianbao.png"></image>
+				<view class="sectext">项目统计</view>
+			</view>
 		</view>
 	</view>
 </view>

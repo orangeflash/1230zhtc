@@ -134,6 +134,11 @@ Page({
       jztime: e.detail.value
     })
   },
+  bindTimeChange3: function (e) {
+    this.setData({
+      yytime: e.detail.value
+    })
+  },
   gongg: function (e) {
     console.log(e.detail.value)
     var zsnum = parseInt(e.detail.value.length);
@@ -221,7 +226,7 @@ Page({
     var splx = this.data.countries[e.detail.value.splx],
       starttime = e.detail.value.starttime,
       endtime = e.detail.value.endtime,
-      jztime = e.detail.value.jztime
+      jztime = e.detail.value.jztime+' '+e.detail.value.yytime
     // console.log(mdid, uid, splx, starttime, endtime, jztime, logo, lbimages, jsimages)
     var warn = "";
     var flag = true;
@@ -229,6 +234,8 @@ Page({
       warn = "请输入姓名！";
     } else if (v.tel == "") {
       warn = "请输入电话！";
+    } else if (jztime.substring(14,16) != "00") {
+      warn = "请选择整点时间！";
     } else {
       for (let k in params) {
         if (k != 'type') params[k] = k == 'is_yy' || k == 'is_month' ? v[k] ? 1 : 2 : v[k]
@@ -333,6 +340,7 @@ Page({
       timestart: start,
       timeend: start,
       jztime: start,
+      yytime:util.formatTime(new Date).substring(11, 14)+'00',
       is_couset: 1,
       szlx: 1,
       sjid: sjid,
