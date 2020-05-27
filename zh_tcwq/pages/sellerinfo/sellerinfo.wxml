@@ -198,8 +198,13 @@
 </view>
 <official-account></official-account>
 <navigator wx:if="{{system.is_sy=='1'&&system.is_syqx=='1'}}" url='md?sjid={{id}}' class='dmf'>
-  <image mode='aspectFit' src='../image/selectbao.png'></image>
-  <view style='background:{{system.color}}'>去买单</view>
+  <view class="dmfLeft">
+    <view class="slma">收银买单 >></view>
+    <view class="mdsjf">买单送积分，尊享会员服务</view>
+  </view>
+  <view class="dmfRight">
+    <image mode='aspectFit' src='../image/selectbao1.png'></image>
+  </view>
 </navigator>
 <view bindtap="ljyy" wx:if="{{store.is_yy=='1'}}" class="weui-btn-area">
   <button class="weui-btn" formType="submit" type="primary" style="background-color:{{system.color}};font-size:36rpx">立即预约</button>

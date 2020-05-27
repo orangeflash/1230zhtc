@@ -63,7 +63,7 @@
       </view>
       <!-- <view class="mdtp"><view class="left">顶部轮播图片：</view><view class="right"><view class='tpjy'>至多上传3张图片</view></view></view><view class='mdtp1' style='margin-bottom:15rpx;'><view class="weui-uploader__bd"><view class="weui-uploader__files" id="uploaderFiles"><block wx:for="{{lbimages}}" wx:key="*this"><view class="weui-uploader__file"><view class='x' bindtap='deleteImage' data-index='{{index}}'><image src='../image/delete.png'></image></view><image class="weui-uploader__img" bindtap="previewImage" src="{{item}}" mode="aspectFill" /></view></block></view><view class="weui-uploader__input-box" wx:if="{{lbimages.length<3}}"><view class="weui-uploader__input" bindtap="chooseImage"></view></view></view><view class='tpsl'>{{lbimages.length}}/3</view></view> -->
       <!-- 使用须知 -->
-      <view class="weui-cells__title">其他备注</view>
+      <view class="weui-cells__title" style="font-size:26rpx;">温馨提示：尊敬的顾客，您好！由于预定人员较多，请以商家电话确认为准！请保持预留的电话畅通，谢谢您的理解与支持</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">

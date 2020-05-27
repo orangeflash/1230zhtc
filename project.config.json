@@ -7,9 +7,15 @@
 		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
+		"preloadBackgroundData": false,
 		"minified": true,
 		"newFeature": true,
-		"checkInvalidKey": true
+		"autoAudits": false,
+		"coverView": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"checkInvalidKey": true,
+		"useCompilerModule": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.4",

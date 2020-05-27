@@ -27,7 +27,7 @@
       </view>
       <view  class="weui-cell">
         <view class="weui-cell__bd">联系电话</view>
-        <view class="weui-cell__ft">{{item.tel}}</view>
+        <view class="weui-cell__ft" bindtap='maketel'  data-tel='{{item.tel}}'>{{item.tel}}</view>
       </view>
       <view  class="weui-cell">
         <view class="weui-cell__bd">项目类型</view>

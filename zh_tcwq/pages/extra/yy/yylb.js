@@ -118,6 +118,12 @@ Page({
       }
     });
   },
+  maketel: function (t) {
+    var a = t.currentTarget.dataset.tel;
+    wx.makePhoneCall({
+      phoneNumber: a,
+    })
+  },
   // loadOrderList: function (o) {
   //   void 0 == o && (o = -1);
   //   var a = this;
