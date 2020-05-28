@@ -168,7 +168,7 @@ Page({
         money: v.srmoney,
         store_id: sjid,
         type: zfmode == 1 ? 2 : 1,
-        typeId: xzitem.id,
+        typeId: xzitem&&xzitem.id||'',
         endTime,
         startTime,
       },
